@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thousif Hakkim — Technical Chat Support Specialist</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f5f0e8;
+    --accent: #e84b2a;
+    --accent2: #2a6ee8;
+    --muted: #8a8070;
+    --card-bg: #ffffff;
+    --border: #d8d0c0;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.5;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    padding: 60px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-right {
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    clip-path: polygon(6% 0, 100% 0, 100% 100%, 0% 100%);
+  }
+
+  .hero-right::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,75,42,0.25) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .hero-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.15em;
+    color: var(--ink);
+  }
+
+  .badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 5px 12px;
+    border-radius: 20px;
+  }
+
+  .hero-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px 0;
+  }
+
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 30px;
+    height: 2px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 8vw, 7rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    margin-bottom: 28px;
+  }
+
+  h1 span {
+    display: block;
+  }
+
+  h1 .line2 {
+    color: var(--accent);
+    -webkit-text-stroke: 0px;
+  }
+
+  .hero-desc {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 400px;
+    margin-bottom: 36px;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--ink);
+    color: var(--paper);
+    text-decoration: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    text-decoration: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 13px 28px;
+    border: 1.5px solid var(--ink);
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+    display: inline-block;
+  }
+
+  .btn-secondary:hover {
+    background: var(--ink);
+    color: var(--paper);
+    transform: translateY(-2px);
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    padding-top: 10px;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2rem;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* RIGHT PANEL CONTENT */
+  .hero-visual {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 40px;
+  }
+
+  .avatar-ring {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 2px solid rgba(232,75,42,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .avatar-ring::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: 1px dashed rgba(255,255,255,0.15);
+    animation: spin 20s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .avatar-inner {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent) 0%, #ff8a6e 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    color: white;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-info-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .info-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: background 0.2s;
+  }
+
+  .info-card:hover { background: rgba(255,255,255,0.1); }
+
+  .info-icon {
+    font-size: 1.1rem;
+    width: 32px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .info-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .info-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+  }
+
+  .info-value {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.85);
+    font-weight: 400;
+    margin-top: 2px;
+  }
+
+  /* ── TICKER ── */
+  .ticker-wrap {
+    background: var(--accent);
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 10px 0;
+  }
+
+  .ticker-inner {
+    display: inline-flex;
+    animation: ticker 22s linear infinite;
+  }
+
+  .ticker-item {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    color: white;
+    padding: 0 30px;
+  }
+
+  .ticker-sep {
+    color: rgba(255,255,255,0.4);
+    padding: 0 10px;
+  }
+
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 90px 60px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 60px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 24px;
+  }
+
+  .section-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+  }
+
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1;
+    letter-spacing: 0.03em;
+  }
+
+  /* ── EXPERIENCE ── */
+  .exp-section { background: var(--paper); }
+
+  .exp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+
+  .exp-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+
+  .exp-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.09);
+  }
+
+  .exp-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+
+  .exp-card:hover::before { transform: scaleX(1); }
+
+  .exp-period {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .exp-period::before {
+    content: '●';
+    font-size: 0.4rem;
+  }
+
+  .exp-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+    color: var(--ink);
+  }
+
+  .exp-company {
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-weight: 400;
+    margin-bottom: 20px;
+  }
+
+  .exp-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .exp-bullets li {
+    font-size: 0.84rem;
+    line-height: 1.6;
+    color: #555;
+    padding-left: 18px;
+    position: relative;
+  }
+
+  .exp-bullets li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.75rem;
+  }
+
+  /* ── SKILLS ── */
+  .skills-section {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .skills-section h2 { color: var(--paper); }
+  .skills-section .section-num { color: var(--accent); }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .skill-block {
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.25s;
+  }
+
+  .skill-block:hover {
+    border-color: var(--accent);
+  }
+
+  .skill-block-icon {
+    font-size: 2rem;
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .skill-block-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.12em;
+    color: var(--paper);
+    margin-bottom: 14px;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .skill-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.65);
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+
+  /* TYPING SPEED BAR */
+  .typing-feature {
+    grid-column: span 3;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 28px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    background: rgba(232,75,42,0.08);
+    border-color: rgba(232,75,42,0.3);
+  }
+
+  .typing-label {
+    flex-shrink: 0;
+  }
+
+  .typing-label .big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .typing-label .small {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .typing-bar-wrap {
+    flex: 1;
+  }
+
+  .typing-bar-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 8px;
+  }
+
+  .typing-bar {
+    height: 6px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .typing-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #ff8a6e);
+    border-radius: 3px;
+    animation: grow 1.5s ease-out forwards;
+  }
+
+  @keyframes grow {
+    from { width: 0; }
+  }
+
+  /* ── LANGUAGES ── */
+  .lang-section { background: var(--paper); }
+
+  .lang-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .lang-card {
+    border: 1px solid var(--border);
+    padding: 32px 24px;
+    text-align: center;
+    transition: border-color 0.2s, transform 0.2s;
+    background: white;
+  }
+
+  .lang-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+  }
+
+  .lang-flag {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .lang-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+
+  .lang-level {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .lang-dots {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 12px;
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--border);
+  }
+
+  .dot.filled { background: var(--accent); }
+
+  /* ── EDUCATION ── */
+  .edu-section { background: #f0ebe0; }
+
+  .edu-card {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 40px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 30px;
+    align-items: start;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .edu-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 50px rgba(0,0,0,0.07);
+  }
+
+  .edu-icon-wrap {
+    width: 60px;
+    height: 60px;
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .edu-degree {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.04em;
+    margin-bottom: 6px;
+  }
+
+  .edu-school {
+    font-size: 0.88rem;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .edu-period {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .edu-courses {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+
+  .course-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 2px;
+  }
+
+  /* ── STRENGTHS ── */
+  .strengths-section { background: var(--ink); color: var(--paper); }
+  .strengths-section h2 { color: var(--paper); }
+
+  .strengths-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .strength-item {
+    background: var(--ink);
+    padding: 28px 32px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    transition: background 0.2s;
+  }
+
+  .strength-item:hover { background: rgba(255,255,255,0.04); }
+
+  .strength-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    color: rgba(232,75,42,0.35);
+    line-height: 1;
+    flex-shrink: 0;
+    min-width: 40px;
+  }
+
+  .strength-text {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: rgba(255,255,255,0.6);
+    padding-top: 6px;
+  }
+
+  /* ── CONTACT ── */
+  .contact-section {
+    background: var(--accent);
+    padding: 90px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-section::before {
+    content: 'HIRE ME';
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20vw;
+    color: rgba(0,0,0,0.08);
+    right: -2vw;
+    bottom: -2vw;
+    line-height: 1;
+    pointer-events: none;
+    letter-spacing: -0.02em;
+  }
+
+  .contact-section h2 {
+    color: white;
+    font-size: clamp(3rem, 6vw, 5rem);
+    margin-bottom: 8px;
+  }
+
+  .contact-sub {
+    color: rgba(255,255,255,0.75);
+    font-size: 1rem;
+    margin-bottom: 50px;
+  }
+
+  .contact-cards {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .contact-card {
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    color: white;
+    transition: background 0.2s, transform 0.2s;
+    min-width: 220px;
+  }
+
+  .contact-card:hover {
+    background: rgba(0,0,0,0.35);
+    transform: translateY(-2px);
+  }
+
+  .contact-card-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+
+  .contact-card-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .contact-card-value {
+    font-size: 0.84rem;
+    font-weight: 400;
+    margin-top: 2px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0a0a0a;
+    color: rgba(255,255,255,0.3);
+    text-align: center;
+    padding: 24px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { clip-path: none; min-height: 340px; }
+    section { padding: 60px 28px; }
+    .exp-grid { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .typing-feature { grid-column: span 2; flex-direction: column; gap: 20px; }
+    .lang-grid { grid-template-columns: 1fr; }
+    .strengths-list { grid-template-columns: 1fr; }
+    .contact-section { padding: 60px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<section class="hero" id="top">
+  <div class="hero-left">
+    <nav class="hero-nav">
+      <div class="logo">TH / Portfolio</div>
+      <div class="badge">Available · Immediate Joiner</div>
+    </nav>
+
+    <div class="hero-content">
+      <p class="hero-tag">Technical Chat Support Specialist</p>
+      <h1>
+        <span class="line1">THOUSIF</span>
+        <span class="line2">HAKKIM</span>
+      </h1>
+      <p class="hero-desc">
+        Detail-oriented support professional with hands-on experience in high-volume customer interactions, AI tools, and digital communication. Fast, precise, and trilingual.
+      </p>
+      <div class="hero-cta">
+        <a href="mailto:thousifhakkim@gmail.com" class="btn-primary">Get In Touch</a>
+        <a href="#experience" class="btn-secondary">View Work</a>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">30+</span>
+        <span class="stat-label">Daily Queries</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">50</span>
+        <span class="stat-label">WPM Speed</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">3</span>
+        <span class="stat-label">Languages</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="grid-bg"></div>
+    <div class="hero-visual">
+      <div class="avatar-ring">
+        <div class="avatar-inner">TH</div>
+      </div>
+      <div class="hero-info-cards">
+        <div class="info-card">
+          <span class="info-icon">📍</span>
+          <div class="info-text">
+            <span class="info-label">Location</span>
+            <span class="info-value">Coimbatore, Tamil Nadu</span>
+          </div>
+        </div>
+        <div class="info-card">
+          <span class="info-icon">📧</span>
+          <div class="info-text">
+            <span class="info-label">Email</span>
+            <span class="info-value">thousifhakkim@gmail.com</span>
+          </div>
+        </div>
+        <div class="info-card">
+          <span class="info-icon">📱</span>
+          <div class="info-text">
+            <span class="info-label">Phone</span>
+            <span class="info-value">+91 8438886818</span>
+          </div>
+        </div>
+        <div class="info-card">
+          <span class="info-icon">🎓</span>
+          <div class="info-text">
+            <span class="info-label">Education</span>
+            <span class="info-value">BE – Electrical & Electronics</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TICKER ── -->
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <span class="ticker-item">Chat Support</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Query Resolution</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">AI Platforms</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Trilingual</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Immediate Joiner</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">50 WPM</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Google Workspace</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Customer Success</span><span class="ticker-sep">✦</span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item">Chat Support</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Query Resolution</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">AI Platforms</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Trilingual</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Immediate Joiner</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">50 WPM</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Google Workspace</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Customer Success</span><span class="ticker-sep">✦</span>
+  </div>
+</div>
+
+<!-- ── EXPERIENCE ── -->
+<section class="exp-section" id="experience">
+  <div class="section-header fade-up">
+    <div>
+      <p class="section-num">01 — EXPERIENCE</p>
+      <h2>Work History</h2>
+    </div>
+  </div>
+  <div class="exp-grid">
+    <div class="exp-card fade-up">
+      <div class="exp-period">Jan 2026 – Apr 2026</div>
+      <div class="exp-title">AI Content Developer<br>& Customer Support</div>
+      <div class="exp-company">Sun Info Media · Coimbatore</div>
+      <ul class="exp-bullets">
+        <li>Handled 30+ customer queries daily via chat and email with step-by-step resolutions</li>
+        <li>Improved content accuracy by 20% through systematic quality checks</li>
+        <li>Maintained quality standards across 100+ content pieces with zero errors</li>
+        <li>Used AI platforms and Google Workspace daily for content and communication</li>
+        <li>Collaborated cross-functionally to ensure user-friendly explanations</li>
+      </ul>
+    </div>
+    <div class="exp-card fade-up" style="transition-delay:0.12s;">
+      <div class="exp-period">Apr 2026 – May 2026</div>
+      <div class="exp-title">Customer Service<br>Assistant</div>
+      <div class="exp-company">Family-Owned Footwear Store · Coimbatore</div>
+      <ul class="exp-bullets">
+        <li>Assisted 30+ customers daily, resolving product queries efficiently</li>
+        <li>Handled billing, payment processing, and inventory with accuracy</li>
+        <li>Resolved customer complaints professionally, boosting repeat visits</li>
+        <li>Managed multiple simultaneous interactions during peak hours</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── SKILLS ── -->
+<section class="skills-section" id="skills">
+  <div class="section-header fade-up">
+    <div>
+      <p class="section-num">02 — SKILLS</p>
+      <h2>Capabilities</h2>
+    </div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-block fade-up">
+      <span class="skill-block-icon">💬</span>
+      <div class="skill-block-title">Support Skills</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Chat Support</span>
+        <span class="skill-tag">Email Support</span>
+        <span class="skill-tag">Query Resolution</span>
+        <span class="skill-tag">Troubleshooting</span>
+        <span class="skill-tag">Ticket Management</span>
+        <span class="skill-tag">Escalation Handling</span>
+      </div>
+    </div>
+    <div class="skill-block fade-up" style="transition-delay:0.1s;">
+      <span class="skill-block-icon">🛠️</span>
+      <div class="skill-block-title">Technical Skills</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Basic Networking</span>
+        <span class="skill-tag">Computer Architecture</span>
+        <span class="skill-tag">MS Office Suite</span>
+        <span class="skill-tag">Google Workspace</span>
+        <span class="skill-tag">AI Platforms</span>
+      </div>
+    </div>
+    <div class="skill-block fade-up" style="transition-delay:0.2s;">
+      <span class="skill-block-icon">⚙️</span>
+      <div class="skill-block-title">Tools & Platforms</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Live Chat</span>
+        <span class="skill-tag">Email Clients</span>
+        <span class="skill-tag">Canva</span>
+        <span class="skill-tag">Google Docs</span>
+        <span class="skill-tag">Spreadsheets</span>
+      </div>
+    </div>
+    <!-- Typing Speed Feature -->
+    <div class="typing-feature fade-up" style="transition-delay:0.3s;">
+      <div class="typing-label">
+        <div class="big">40–50</div>
+        <div class="small">Words Per Minute</div>
+      </div>
+      <div class="typing-bar-wrap">
+        <div class="typing-bar-label">Typing Speed — High-Volume Chat Ready</div>
+        <div class="typing-bar">
+          <div class="typing-bar-fill" style="width: 75%;"></div>
+        </div>
+        <div class="typing-bar-label" style="margin-top:4px;">Strong written communication in English & Tamil</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── LANGUAGES ── -->
+<section class="lang-section" id="languages">
+  <div class="section-header fade-up">
+    <div>
+      <p class="section-num">03 — LANGUAGES</p>
+      <h2>Trilingual Edge</h2>
+    </div>
+  </div>
+  <div class="lang-grid">
+    <div class="lang-card fade-up">
+      <span class="lang-flag">🇮🇳</span>
+      <div class="lang-name">Tamil</div>
+      <div class="lang-level">Native</div>
+      <div class="lang-dots">
+        <div class="dot filled"></div>
+        <div class="dot filled"></div>
+        <div class="dot filled"></div>
+        <div class="dot filled"></div>
+        <div class="dot filled"></div>
+      </div>
+    </div>
+    <div class="lang-card fade-up" style="transition-delay:0.1s;">
+      <span class="lang-flag">🇬🇧</span>
+      <div class="lang-name">English</div>
+      <div class="lang-level">Fluent</div>
+      <div class="lang-dots">
+        <div class="dot filled"></div>
+        <div class="dot filled"></div>
+        <div class="dot filled"></div>
+        <div class="dot filled"></div>
+        <div class="dot"></div>
+      </div>
+    </div>
+    <div class="lang-card fade-up" style="transition-delay:0.2s;">
+      <span class="lang-flag">🌴</span>
+      <div class="lang-name">Malayalam</div>
+      <div class="lang-level">Conversational</div>
+      <div class="lang-dots">
+        <div class="dot filled"></div>
+        <div class="dot filled"></div>
+        <div class="dot filled"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EDUCATION ── -->
+<section class="edu-section" id="education">
+  <div class="section-header fade-up">
+    <div>
+      <p class="section-num">04 — EDUCATION</p>
+      <h2>Academic Background</h2>
+    </div>
+  </div>
+  <div class="edu-card fade-up">
+    <div class="edu-icon-wrap">🎓</div>
+    <div>
+      <div class="edu-degree">Bachelor of Engineering – EEE</div>
+      <div class="edu-school">Nehru Institute of Engineering and Technology · Coimbatore</div>
+      <div class="edu-period">2022 – 2026</div>
+      <div class="edu-courses">
+        <span class="course-tag">Basic Networking</span>
+        <span class="course-tag">Computer Architecture</span>
+        <span class="course-tag">Communication Systems</span>
+        <span class="course-tag">Technical Communication</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STRENGTHS ── -->
+<section class="strengths-section" id="strengths">
+  <div class="section-header fade-up">
+    <div>
+      <p class="section-num">05 — STRENGTHS</p>
+      <h2>Key Strengths</h2>
+    </div>
+  </div>
+  <div class="strengths-list fade-up">
+    <div class="strength-item">
+      <div class="strength-num">01</div>
+      <div class="strength-text">Diagnoses and explains technical issues in simple, user-friendly language via chat — making complex problems feel easy to resolve.</div>
+    </div>
+    <div class="strength-item">
+      <div class="strength-num">02</div>
+      <div class="strength-text">Patient and empathetic approach to handling frustrated or confused customers, maintaining professionalism at all times.</div>
+    </div>
+    <div class="strength-item">
+      <div class="strength-num">03</div>
+      <div class="strength-text">Skilled at managing multiple simultaneous chat conversations without compromising response quality or accuracy.</div>
+    </div>
+    <div class="strength-item">
+      <div class="strength-num">04</div>
+      <div class="strength-text">Strong attention to detail ensuring accurate, complete, and professional responses — zero error delivery across 100+ content pieces.</div>
+    </div>
+    <div class="strength-item">
+      <div class="strength-num">05</div>
+      <div class="strength-text">Fast learner — quickly adapts to new support tools, knowledge bases, and product updates with minimal ramp-up time.</div>
+    </div>
+    <div class="strength-item">
+      <div class="strength-num">06</div>
+      <div class="strength-text">Trilingual advantage enables seamless support across Tamil, English, and Malayalam speaking customers across South India.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section class="contact-section" id="contact">
+  <p class="section-num" style="color:rgba(255,255,255,0.6); margin-bottom:10px;">06 — CONTACT</p>
+  <h2 class="fade-up">Let's Work<br>Together.</h2>
+  <p class="contact-sub fade-up">Immediate joiner — ready to contribute from day one.</p>
+  <div class="contact-cards fade-up">
+    <a href="mailto:thousifhakkim@gmail.com" class="contact-card">
+      <span class="contact-card-icon">✉️</span>
+      <div>
+        <div class="contact-card-label">Email</div>
+        <div class="contact-card-value">thousifhakkim@gmail.com</div>
+      </div>
+    </a>
+    <a href="tel:+918438886818" class="contact-card">
+      <span class="contact-card-icon">📞</span>
+      <div>
+        <div class="contact-card-label">Phone</div>
+        <div class="contact-card-value">+91 8438886818</div>
+      </div>
+    </a>
+    <div class="contact-card">
+      <span class="contact-card-icon">📍</span>
+      <div>
+        <div class="contact-card-label">Location</div>
+        <div class="contact-card-value">Coimbatore, Tamil Nadu</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  © 2026 Thousif Hakkim A — Technical Chat Support Specialist · Coimbatore
+</footer>
+
+<script>
+  // Fade-up on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
